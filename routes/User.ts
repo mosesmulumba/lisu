@@ -1,14 +1,15 @@
 import express , {Request , Response , NextFunction} from 'express';
-import { UserLogin } from '../controllers/UserController';
+import { GetUserProfile, UpdateUserProfile, UserLogin, UserSignup } from '../controllers';
+import { Authenicate } from '../middlewares';
 
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response , next: NextFunction)=>{
-    return res.json({message: "Hello User"});
-});
-
+router.post('/sign-up' , UserSignup);
 router.post('/userLogin', UserLogin);
-router.get('/profile');
-router.patch('/profile');
+
+router.use(Authenicate);
+router.get('/profile' , GetUserProfile);
+router.patch('/profile' , UpdateUserProfile);
+
 
 export { router as UserRoute};
